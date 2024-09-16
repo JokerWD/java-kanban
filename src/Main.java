@@ -5,7 +5,7 @@ public class Main {
 
         try (Scanner scanner = new Scanner(System.in)) {
             UIHandler menu = new UIHandler();
-            menu.ShowMenu(scanner);
+            menu.showMenu(scanner);
         }
     }
 }

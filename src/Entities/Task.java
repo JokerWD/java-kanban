@@ -15,6 +15,11 @@ public class Task {
         this.statusTask = statusTask;
     }
 
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
