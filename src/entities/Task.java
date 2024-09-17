@@ -1,31 +1,19 @@
-package Entities;
+package entities;
 
-import Enums.StatusTask;
+import enums.StatusTask;
 
 import java.util.Objects;
 
 public class Task {
-    private String name;
-    private String description;
+    private final String name;
+    private int id;
+    private final String description;
     private StatusTask statusTask;
 
     public Task(String name, String description, StatusTask statusTask) {
         this.name = name;
         this.description = description;
         this.statusTask = statusTask;
-    }
-
-    public Task(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
 
@@ -41,15 +29,23 @@ public class Task {
         return description;
     }
 
-
     public StatusTask getStatusTask() {
         return statusTask;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
         return "Task{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", statusTask=" + statusTask +
                 '}';
@@ -60,11 +56,11 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(name, task.name) && Objects.equals(description, task.description) && statusTask == task.statusTask;
+        return id == task.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, statusTask);
+        return Objects.hash(id);
     }
 }
