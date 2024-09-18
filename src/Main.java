@@ -38,12 +38,10 @@ public class Main {
 
         subtask2.setStatusTask(StatusTask.IN_PROGRESS);
         storage.updateSubtask(subtask2);
-
-        epic1.updateStatus(storage);
-
+        
         System.out.println("\nОбновление статусов у тасков:");
         System.out.println("Таск 1: " + storage.getTask(task1.getId()));
-        System.out.println("Дополнительнй таск 1: " + storage.getSubtask(subtask1.getId()));
+        System.out.println("Дополнительный таск 1: " + storage.getSubtask(subtask1.getId()));
         System.out.println("Дополнительный таск 2: " + storage.getSubtask(subtask2.getId()));
         System.out.println("Эпик 1: " + storage.getEpic(epic1.getId()));
 
@@ -52,8 +50,8 @@ public class Main {
 
         System.out.println("\nСитуация с тасками после удаления:");
         printTasks(storage);
-
     }
+
     private static void printTasks(TaskStorage storage) {
         System.out.println("Список тасков:");
         for (Task task : storage.getTasks()) {

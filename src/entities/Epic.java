@@ -1,8 +1,6 @@
 package entities;
 
 import enums.StatusTask;
-import service.TaskStorage;
-
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,7 +13,6 @@ public class Epic extends Task {
         this.subtaskIds = new HashSet<>();
     }
 
-
     public Set<Integer> getSubtaskIds() {
         return subtaskIds;
     }
@@ -27,37 +24,6 @@ public class Epic extends Task {
     public void removeSubtask(int subtaskId) {
         subtaskIds.remove(subtaskId);
     }
-
-    public void updateStatus(TaskStorage taskStorage) {
-        if (subtaskIds.isEmpty()) {
-            setStatusTask(StatusTask.NEW);
-            return;
-        }
-
-        boolean anyInProgress = false;
-        boolean allDone = true;
-
-        for (Integer subtaskId : subtaskIds) {
-            Subtask subtask = taskStorage.getSubtask(subtaskId);
-            if (subtask != null) {
-                StatusTask status = subtask.getStatusTask();
-                if (status == StatusTask.IN_PROGRESS) {
-                    anyInProgress = true;
-                } else if (status != StatusTask.DONE) {
-                    allDone = false;
-                }
-            }
-        }
-
-        if (anyInProgress) {
-            setStatusTask(StatusTask.IN_PROGRESS);
-        } else if (allDone) {
-            setStatusTask(StatusTask.DONE);
-        } else {
-            setStatusTask(StatusTask.NEW);
-        }
-    }
-
 
     @Override
     public String toString() {

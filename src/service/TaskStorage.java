@@ -3,21 +3,15 @@ package service;
 import entities.Epic;
 import entities.Subtask;
 import entities.Task;
+import enums.StatusTask;
 
 import java.util.*;
 
 public class TaskStorage {
-    private final HashMap<Integer, Task> tasks;
-    private final HashMap<Integer, Epic> epics;
-    private final HashMap<Integer, Subtask> subtasks;
-    private int idCounter;
-
-    public TaskStorage() {
-        tasks = new HashMap<>();
-        epics = new HashMap<>();
-        subtasks = new HashMap<>();
-        idCounter = 0;
-    }
+    private final HashMap<Integer, Task> tasks = new HashMap<>();
+    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private int idCounter = 0;
 
     public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
@@ -56,6 +50,7 @@ public class TaskStorage {
     public Epic getEpic(int id) {
         return epics.get(id);
     }
+
     public void addNewTask(Task task) {
         int id = generateId();
         task.setId(id);
@@ -79,23 +74,39 @@ public class TaskStorage {
         subtask.setId(id);
         subtasks.put(id, subtask);
         epic.addSubtask(id);
-        epic.updateStatus(this);
+        updateEpicStatus(epic);
     }
 
     public void updateTask(Task task) {
-        tasks.put(task.getId(), task);
+        if (tasks.containsKey(task.getId())) {
+            tasks.put(task.getId(), task);
+        } else {
+            System.out.println("Задача с ID " + task.getId() + " не существует.");
+        }
     }
 
     public void updateEpic(Epic epic) {
-        epics.put(epic.getId(), epic);
-        epic.updateStatus(this);
+        if (epics.containsKey(epic.getId())) {
+            Epic existingEpic = epics.get(epic.getId());
+            existingEpic.setName(epic.getName());
+            existingEpic.setDescription(epic.getDescription());
+            updateEpicStatus(existingEpic);
+        } else {
+            System.out.println("Эпик с ID " + epic.getId() + " не существует.");
+        }
     }
 
     public void updateSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-        Epic epic = epics.get(subtask.getEpicId());
-        if (epic != null) {
-            epic.updateStatus(this);
+        if (subtasks.containsKey(subtask.getId())) {
+            Subtask existingSubtask = subtasks.get(subtask.getId());
+            if (epics.containsKey(existingSubtask.getEpicId())) {
+                subtasks.put(subtask.getId(), subtask);
+                updateEpicStatus(epics.get(subtask.getEpicId()));
+            } else {
+                System.out.println("Эпик с ID " + existingSubtask.getEpicId() + " не существует.");
+            }
+        } else {
+            System.out.println("Подзадача с ID " + subtask.getId() + " не существует.");
         }
     }
 
@@ -118,7 +129,7 @@ public class TaskStorage {
             Epic epic = epics.get(subtask.getEpicId());
             if (epic != null) {
                 epic.removeSubtask(id);
-                epic.updateStatus(this);
+                updateEpicStatus(epic);
             }
         }
     }
@@ -131,7 +142,7 @@ public class TaskStorage {
         subtasks.clear();
         for (Epic epic : epics.values()) {
             epic.getSubtaskIds().clear();
-            epic.updateStatus(this);
+            updateEpicStatus(epic);
         }
     }
 
@@ -142,5 +153,35 @@ public class TaskStorage {
 
     private int generateId() {
         return ++idCounter;
+    }
+
+    private void updateEpicStatus(Epic epic) {
+        if (epic.getSubtaskIds().isEmpty()) {
+            epic.setStatusTask(StatusTask.NEW);
+            return;
+        }
+
+        boolean anyInProgress = false;
+        boolean allDone = true;
+
+        for (Integer subtaskId : epic.getSubtaskIds()) {
+            Subtask subtask = subtasks.get(subtaskId);
+            if (subtask != null) {
+                StatusTask status = subtask.getStatusTask();
+                if (status == StatusTask.IN_PROGRESS) {
+                    anyInProgress = true;
+                } else if (status != StatusTask.DONE) {
+                    allDone = false;
+                }
+            }
+        }
+
+        if (anyInProgress) {
+            epic.setStatusTask(StatusTask.IN_PROGRESS);
+        } else if (allDone) {
+            epic.setStatusTask(StatusTask.DONE);
+        } else {
+            epic.setStatusTask(StatusTask.NEW);
+        }
     }
 }

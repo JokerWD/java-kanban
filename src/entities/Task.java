@@ -5,10 +5,10 @@ import enums.StatusTask;
 import java.util.Objects;
 
 public class Task {
-    private final String name;
+    private  String name;
     private int id;
-    private final String description;
-    private StatusTask statusTask;
+    private String description;
+    protected StatusTask statusTask;
 
     public Task(String name, String description, StatusTask statusTask) {
         this.name = name;
@@ -16,6 +16,13 @@ public class Task {
         this.statusTask = statusTask;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public void setStatusTask(StatusTask statusTask) {
         this.statusTask = statusTask;
