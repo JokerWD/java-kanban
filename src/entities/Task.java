@@ -5,9 +5,9 @@ import enums.StatusTask;
 import java.util.Objects;
 
 public class Task {
-    private  String name;
-    private int id;
-    private String description;
+    protected String name;
+    protected int id;
+    protected String description;
     protected StatusTask statusTask;
 
     public Task(String name, String description, StatusTask statusTask) {
