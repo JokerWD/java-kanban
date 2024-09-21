@@ -1,9 +1,7 @@
-package entities;
+package service;
 
-import Interfaces.HistoryManager;
-import service.InMemoryHistoryManager;
-import service.InMemoryTaskManager;
-import Interfaces.TaskManager;
+import interfaces.HistoryManager;
+import interfaces.TaskManager;
 
 public class Managers {
     public static TaskManager getDefault() {

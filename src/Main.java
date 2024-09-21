@@ -1,9 +1,9 @@
 import entities.Epic;
-import entities.Managers;
+import service.Managers;
 import entities.Subtask;
 import entities.Task;
 import enums.StatusTask;
-import Interfaces.TaskManager;
+import interfaces.TaskManager;
 
 
 public class Main {

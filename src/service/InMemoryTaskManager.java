@@ -1,9 +1,8 @@
 package service;
 
-import Interfaces.HistoryManager;
-import Interfaces.TaskManager;
+import interfaces.HistoryManager;
+import interfaces.TaskManager;
 import entities.Epic;
-import entities.Managers;
 import entities.Subtask;
 import entities.Task;
 import enums.StatusTask;

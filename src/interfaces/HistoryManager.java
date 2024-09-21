@@ -1,4 +1,4 @@
-package Interfaces;
+package interfaces;
 
 import entities.Task;
 import java.util.List;

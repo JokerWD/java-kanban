@@ -1,4 +1,4 @@
-package UnitTest;
+package test;
 
 import entities.Task;
 import enums.StatusTask;
@@ -44,6 +44,13 @@ class TaskTest {
 
         assertEquals(task1.hashCode(), task2.hashCode(), "Задачи с одинаковым ID должны иметь одинаковый hashCode");
         assertNotEquals(task1.hashCode(), task3.hashCode(), "Задачи с разными ID должны иметь разные hashCode");
+    }
+    @Test
+    public void testTasksEquality() {
+        Task task1 = new Task("Таск 1", "Описание", StatusTask.NEW);
+        Task task2 = new Task("Tаск 2","Описание", StatusTask.DONE);
+
+        assertEquals(task1, task2);
     }
 
 }

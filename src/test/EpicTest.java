@@ -1,7 +1,6 @@
-package UnitTest;
+package test;
 
 import entities.Epic;
-import entities.Subtask;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
